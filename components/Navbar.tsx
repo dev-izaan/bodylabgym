@@ -16,7 +16,6 @@ export function Navbar() {
             ease="power3.out"
             pillColor="rgba(255,255,255,0.10)"
             hoveredPillTextColor="#000000"
-            pillTextColor="#ffffff"
             initialLoadAnimation={true}
         />
     );

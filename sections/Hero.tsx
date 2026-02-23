@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { WHATSAPP_LINK } from '@/lib/constants';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function Hero() {
     const [mounted, setMounted] = useState(false);
@@ -14,13 +15,18 @@ export default function Hero() {
     return (
         <section className="relative min-h-screen flex items-center overflow-hidden">
             {/* Background with Theme-Aware Overlay */}
-            {/* Hero Background Image */}
-            <div
-                className={`absolute inset-0 bg-[url('https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-[3000ms] ease-out brightness-[1.0] contrast-[1.05] will-change-transform ${mounted ? 'scale-100' : 'scale-105'}`}
-                aria-hidden="true"
-            >
+            {/* Hero Background Image - Optimized */}
+            <div className={`absolute inset-0 z-0 transition-transform duration-[3000ms] ease-out will-change-transform ${mounted ? 'scale-100' : 'scale-105'}`}>
+                <Image
+                    src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=2069&auto=format&fit=crop"
+                    alt="Body Lab Gym"
+                    fill
+                    priority
+                    quality={90}
+                    className="object-cover object-center brightness-[0.7] contrast-[1.1]"
+                />
                 {/* Unified overlay: dark-left fade works in both light & dark mode */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
             </div>
 
             <div className={`container max-w-7xl px-6 relative z-10 transition-all duration-1000 transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
