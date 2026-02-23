@@ -16,7 +16,7 @@ export default function Hero() {
             {/* Background with Theme-Aware Overlay */}
             {/* Hero Background Image */}
             <div
-                className={`absolute inset-0 bg-[url('https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-[3000ms] ease-out brightness-[1.1] contrast-[1.05] will-change-transform ${mounted ? 'scale-100' : 'scale-105'}`}
+                className={`absolute inset-0 bg-[url('https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-[3000ms] ease-out brightness-[1.0] contrast-[1.05] will-change-transform ${mounted ? 'scale-100' : 'scale-105'}`}
                 aria-hidden="true"
             >
                 {/* Unified overlay: dark-left fade works in both light & dark mode */}
