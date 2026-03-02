@@ -37,9 +37,9 @@ const PillNav = ({
     const [mounted, setMounted] = useState(false);
     useEffect(() => { setMounted(true); }, []);
 
-    const { theme, setTheme } = useTheme();
-    const resolvedTheme = mounted ? theme : 'dark';
-    const isDark = resolvedTheme === "dark";
+    const { theme, setTheme, resolvedTheme: nextResolvedTheme } = useTheme();
+    const currentTheme = mounted ? nextResolvedTheme : 'dark';
+    const isDark = currentTheme === "dark";
     const defaultTextColor = isDark ? "#ffffff" : "#111111";
     const fallbackPillColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)";
 
@@ -105,9 +105,6 @@ const PillNav = ({
             document.fonts?.ready?.then(layout).catch(() => { });
         }
 
-        const menu = mobileMenuRef.current;
-        if (menu) gsap.set(menu, { visibility: "hidden", opacity: 0 });
-
         if (initialLoadAnimation && mounted) {
             const navItems = navItemsRef.current;
             if (navItems) {
@@ -152,8 +149,6 @@ const PillNav = ({
         setIsMobileMenuOpen(next);
 
         const hamburger = hamburgerRef.current;
-        const menu = mobileMenuRef.current;
-
         if (hamburger) {
             const lines = hamburger.querySelectorAll(".hamburger-line");
             if (next) {
@@ -162,21 +157,6 @@ const PillNav = ({
             } else {
                 gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.4, ease });
                 gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.4, ease });
-            }
-        }
-
-        if (menu) {
-            if (next) {
-                gsap.set(menu, { visibility: "visible" });
-                gsap.fromTo(menu, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease });
-            } else {
-                gsap.to(menu, {
-                    opacity: 0,
-                    y: 12,
-                    duration: 0.35,
-                    ease,
-                    onComplete: () => { gsap.set(menu, { visibility: "hidden" }); },
-                });
             }
         }
     };
@@ -226,8 +206,8 @@ const PillNav = ({
                             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                             aria-label="Toggle theme"
                         >
-                            <div className={`theme-icon-wrapper ${resolvedTheme}`}>
-                                {resolvedTheme === "dark" ? <Sun size={15} strokeWidth={1.5} /> : <Moon size={15} strokeWidth={1.5} />}
+                            <div className={`theme-icon-wrapper ${currentTheme}`}>
+                                {currentTheme === "dark" ? <Sun size={15} strokeWidth={1.5} /> : <Moon size={15} strokeWidth={1.5} />}
                             </div>
                         </button>
                     )}
@@ -246,7 +226,7 @@ const PillNav = ({
             </nav>
 
             {/* Mobile Popover */}
-            <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
+            <div className={`mobile-menu-popover mobile-only ${isMobileMenuOpen ? 'is-open' : ''}`} ref={mobileMenuRef}>
                 <ul className="mobile-menu-list">
                     {items.map((item) => (
                         <li key={item.href}>
@@ -255,9 +235,7 @@ const PillNav = ({
                                 className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
                                 onClick={() => {
                                     setIsMobileMenuOpen(false);
-                                    const menu = mobileMenuRef.current;
                                     const hamburger = hamburgerRef.current;
-                                    if (menu) gsap.set(menu, { visibility: "hidden", opacity: 0 });
                                     if (hamburger) {
                                         const lines = hamburger.querySelectorAll(".hamburger-line");
                                         gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.2 });

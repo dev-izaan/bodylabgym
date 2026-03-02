@@ -227,14 +227,14 @@
 .hamburger-line {
     width: 18px;
     height: 1.5px;
-    background: var(--pill-text, #111);
+    background: var(--text-primary);
     border-radius: 2px;
     transform-origin: center;
     transition: all 0.3s ease;
 }
 
 :global(.dark) .hamburger-line {
-    background: #fff;
+    background: var(--text-primary);
 }
 
 /* ─── Responsive Show/Hide ──────────────────────────── */
@@ -274,29 +274,34 @@
 /* ─── Mobile Popover ────────────────────────────────── */
 .mobile-menu-popover {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    top: 5rem;
+    right: 1.25rem;
+    width: min(calc(100vw - 2.5rem), 280px);
+    background: #ffffff;
+    border-radius: 24px;
     z-index: 9999;
-    /* Higher z-index to cover everything */
     opacity: 0;
     visibility: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     pointer-events: all;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.25rem;
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9) translateY(-10px);
+    transform-origin: top right;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :global(.dark) .mobile-menu-popover {
-    background: rgba(10, 10, 10, 0.98);
+    background: #111111;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-popover.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
 }
 
 .mobile-menu-list {
@@ -305,33 +310,61 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    text-align: center;
+    gap: 8px;
+    text-align: left;
 }
 
 .mobile-menu-popover .mobile-menu-link {
     display: block;
-    padding: 10px 20px;
-    color: var(--pill-text, #111);
+    padding: 1rem 1.25rem;
+    color: #000000;
+    /* Force deep black for visibility in light mode */
     text-decoration: none;
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    border-radius: 12px;
     transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateX(10px);
 }
 
 :global(.dark) .mobile-menu-popover .mobile-menu-link {
-    color: #fff;
+    color: #ffffff;
+    /* Force solid white for visibility in dark mode */
+}
+
+.mobile-menu-popover.is-open .mobile-menu-link {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Staggered entry */
+.mobile-menu-list li:nth-child(1) .mobile-menu-link {
+    transition-delay: 0.1s;
+}
+
+.mobile-menu-list li:nth-child(2) .mobile-menu-link {
+    transition-delay: 0.15s;
+}
+
+.mobile-menu-list li:nth-child(3) .mobile-menu-link {
+    transition-delay: 0.2s;
+}
+
+.mobile-menu-list li:nth-child(4) .mobile-menu-link {
+    transition-delay: 0.25s;
 }
 
 .mobile-menu-popover .mobile-menu-link:hover,
 .mobile-menu-popover .mobile-menu-link.is-active {
-    color: var(--accent);
-    transform: scale(1.05);
+    background: var(--accent);
+    color: #000000 !important;
 }
 
 :global(.dark) .mobile-menu-popover .mobile-menu-link:hover,
 :global(.dark) .mobile-menu-popover .mobile-menu-link.is-active {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--accent);
+    color: #000000 !important;
 }
